@@ -1,0 +1,21 @@
+# Render Blueprint — deploys the Dispatch console as a single web service.
+# No database, no Redis, no URLs to provide. With no DATABASE_URL set the app
+# runs entirely on its built-in in-memory store (state resets on each restart),
+# so anyone can visit the site and use every feature with zero setup.
+#
+# In Render: New -> Blueprint -> point at this repo -> Apply. Done.
+
+services:
+  - type: web
+    name: dispatch-ride-pooling
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # No DATABASE_URL on purpose -> in-memory mode.
+      # To run against a real PostgreSQL+PostGIS instead, add DATABASE_URL here.
